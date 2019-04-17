@@ -1,0 +1,5 @@
+package tips
+
+class Tips {
+
+}

@@ -1,0 +1,5 @@
+package giveaways
+
+class Giveaways {
+
+}
