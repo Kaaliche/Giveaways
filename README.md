@@ -1,0 +1,3 @@
+# Giveaways
+
+Scala Project
