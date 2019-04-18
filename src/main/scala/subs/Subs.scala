@@ -2,14 +2,11 @@ package subs
 
 import utils.db._
 
-object Subs {
- /* def getSubs(users: List[Subs]): List[String] = {
-    users.map(x => x.name)
-  } */
+import scala.collection.mutable.Map
 
-  def getSubs(users: List[User]): List[(String, String)] = {
-    for{
-      u <- users if u.subscribe
-    } yield (u.nom, u.pnom)
+object Subs {
+
+  def getSubs(users: Map[Int, User]): List[(String, String)] = {
+    users.values.toList.map(v => (v.nom, v.pnom))
   }
 }
