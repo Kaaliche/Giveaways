@@ -1,6 +1,6 @@
 package giveaways
 
-import utils.db.Database
+import utils.db._
 
 class Giveaways {
 
