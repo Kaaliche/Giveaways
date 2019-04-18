@@ -14,4 +14,9 @@ class Database {
   var GiveAways: List[GiveAway] = List(GiveAway(0,"Tombola du jour"), GiveAway(1,"Tombala d'hier"))
   var GiveAwayToUsers : List[GiveAwayToUser] = List(GiveAwayToUser(0,0),GiveAwayToUser(0,1),GiveAwayToUser(1,0),GiveAwayToUser(1,2))
 
+
+
+
+
+  
 }
