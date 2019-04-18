@@ -1,5 +1,7 @@
 package utils.db
 
+import akka.Done
+
 class Database {
   final case class Item(name: String, id: Long)
   final case class Order(items: List[Item])
