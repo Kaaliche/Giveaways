@@ -32,6 +32,14 @@ class Tips {
   }
 
   test("sum donnations/Users"){
+    val DONATOR_MAP: Map[Int,Don] = Map((0, Don(0,1,50.0)),(1,Don(1,2,50.00)),(2,Don(2,0,25.00)),(3,Don(3,1,2.50)))
+    val total = sumDonationperUser(DONATOR_MAP)
+    assert(total == Map((0, 50.0),(1,50.0),(2.25.00),(3,2.50)))
+  }
 
+  test("sum don for one user") {
+    val DONATOR_MAP: Map[Int, Don] = Map((0, Don(0, 1, 50.0)), (1, Don(1, 2, 50.00)), (2, Don(2, 0, 25.00)), (3, Don(3, 1, 2.50)))
+    val total = sumDonationForUser(DONATOR_MAP, 0)
+    assert(total == (0, 50.0))
   }
 }
