@@ -2,7 +2,7 @@ package giveaways
 
 import utils.db._
 
-class Giveaways {
+object Giveaways {
 
   def createGiveAway(idGiveAways:Int, nomGiveAways:String){                 //Creation d'une Give away
 

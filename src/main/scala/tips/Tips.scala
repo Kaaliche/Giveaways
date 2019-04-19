@@ -3,7 +3,7 @@ package tips
 import utils.db._
 
 
-class Tips {
+object Tips {
 
 
   def getDonator(tipN:List[Don], users: List[User]): List[User] = {    //recupere la liste des donateurs
