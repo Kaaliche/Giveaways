@@ -5,9 +5,12 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
+import scala.io.StdIn
+import blacklist.Blacklist._
+import surveys.Surveys._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import spray.json.DefaultJsonProtocol._
-import scala.io.StdIn
+import utils.db.Database._
 
 object WebServer {
   def main(args: Array[String]) {
@@ -15,12 +18,59 @@ object WebServer {
     implicit val system = ActorSystem("my-system")
     implicit val materializer = ActorMaterializer()
     implicit val executionContext = system.dispatcher
+
+    case class Blacklist(idBlackList:Int)
+    implicit val blacklistFormat = jsonFormat1(Blacklist)
+    case class Survey(id:Int,answer:String, rep1:String, rep2:String)
+    implicit val surveyFormat = jsonFormat4(Survey)
+    case class Vote(id:Int, choice:Int)
+    implicit val voteFormat = jsonFormat2(Vote)
+
     val route =
       path("hello") {
         get {
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
         }
-      }
+      }~
+        post {
+          path("blacklist") {
+            entity(as[Blacklist]) { blacklist =>
+              USERS_MAP = setBlacklist(USERS_MAP, blacklist.idBlackList)
+              complete("User avec id: " + blacklist.idBlackList +" ajouté à la black list")
+            }
+          }
+        }~
+        post {
+          path("unset_blacklist") {
+            entity(as[Blacklist]) { unsetblacklist =>
+              USERS_MAP = unsetBlacklist(USERS_MAP, unsetblacklist.idBlackList)
+              complete("User avec id: " + unsetblacklist.idBlackList +" enlever de la black list")
+            }
+          }
+        }~
+        post{
+          path("create_survey") {
+            entity(as[Survey]) { survey =>
+              SURVEYS_MAP = createSurvey(SURVEYS_MAP, survey.answer, survey.rep1, survey.rep2)
+              complete("Ajout du questionnaire \n" + survey.answer + "\n Avec les réponses:\n " + survey.rep1 +"\n" +survey.rep2)
+            }
+          }
+        }~
+        post{
+          path("vote") {
+            entity(as[Vote]) { v =>
+              SURVEYS_MAP = vote(SURVEYS_MAP, v.id, v.choice)
+              complete("Vous avez voté " +  v.choice +  " pour la question\n" + SURVEYS_MAP(v.id).question)
+            }
+          }
+        }~
+        path("get_result" ) {
+          get{
+            parameter('id.as[Int]) {id => complete(getResults(SURVEYS_MAP, id))}
+
+          }
+        }
+
     val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
     println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
     StdIn.readLine() // let it run until user presses return
