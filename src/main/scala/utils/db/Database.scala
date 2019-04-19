@@ -19,10 +19,7 @@ class Database {
 
   val USERS_MAP: Map[Int, User] = Map((0, User(0,"Hernandez","Pierre",false,true)), (1, User(1,"Petricevic","Adrian",false,false)), (2, User(2,"Tardy","Charles",true,true)))
   val SURVEYS_MAP: Map[Int, Survey] = Map((0, Survey("Yo tout le monde ça va ?", "Oui", "Non")), (1, Survey("Elle est où la poulette ?", "Elle est bien cachée", "Mordu")))
-
-
-
-
+  val DONATOR_MAP: Map[Int,Don] = Map((0, Don(0,1,50.0)),(1,Don(1,2,50.00)),(2,Don(2,0,25.00)),(3,Don(3,1,2.50)))
 
 
 }
