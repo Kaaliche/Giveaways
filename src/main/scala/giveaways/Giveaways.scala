@@ -4,7 +4,15 @@ import utils.db._
 
 class Giveaways {
 
-  def createGiveaway(): = {
+  def createGiveAway(idGiveAways:Int, nomGiveAways:String){                 //Creation d'une Give away
+
+  }
+
+  def signGiveAway(giveaways: List[GiveAwayToUser], idGiveAways:Int, idUser: Int): List[GiveAwayToUser] = {        //Realiser un don
+    giveaways :+ GiveAwayToUser(idGiveAways, idUser)
+  }
+
+  def winner(giveaways: List[GiveAwayToUser], users:List[User]): User = {        //Gagnant du GiveAway
 
   }
 }

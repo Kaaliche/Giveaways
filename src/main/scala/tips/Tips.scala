@@ -1,6 +1,6 @@
 package tips
 
-import utils.db.Database._
+import utils.db._
 
 
 class Tips {
@@ -16,20 +16,21 @@ class Tips {
   }
 
   def cancelDonation(tipN: List[Don], id1:Int, user1:Int, amount1:Double): List[Don] = {          //Annuler un don
-    tipN -= Don(id1, user1, amount1)
+    tipN.filterNot( _==Don(id1, user1, amount1))
   }
 
   def sumDonation(donator: Map[Int,Don]):Double={                                                 //Total des dons
-    Map.values.map(prix).sum
+    donator.values.map(p => p.prix).sum
   }
 
-  def sumDonationperUser(donator: Map[Int,Don]):List[Int,Double]={                                      //Total des dons/User
-    Map.values.filter
-
+  def sumDonationperUser(donator: Map[Int,Don]):Map[Int,Double]={                                //Total des dons/User
+    val iter= donator.values
+    val map2 = iter.groupBy(_.idUser)
+    map2.mapValues(_.map(_.prix).sum)
   }
 
-  def sumDonationForUser(donator: Map[Int,Don]):{Int,Double}={                                          //Total des dons pour un User
-
-
+  def sumDonationForUser(donator: Map[Int,Don], id: Int):(Int, Double)={                                    //Total des dons pour un User
+   val map = sumDonationperUser(donator)
+    (id, map(id))
   }
 }
