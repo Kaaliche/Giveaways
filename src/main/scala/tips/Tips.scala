@@ -11,7 +11,7 @@ class Tips {
     users.filter(x => idUserDon.contains(x.idUser))
   }
 
-  def mkDonation(tipN: List[Don], id1:Int, user1:Int, amount1:Double): List[Don] = {               //Realiser un don
+  def mkDonation(tipN: List[Don], id1:Int, user1:Int, amount1:Double): List[Don] = {              //Realiser un don
     tipN :+ Don(id1, user1, amount1)
   }
 
@@ -19,17 +19,16 @@ class Tips {
     tipN -= Don(id1, user1, amount1)
   }
 
-  def sumDonation(tipN: List[Don]):Double={                                                         //Total des dons
+  def sumDonation(donator: Map[Int,Don]):Double={                                                 //Total des dons
+    Map.values.map(prix).sum
+  }
 
+  def sumDonationperUser(donator: Map[Int,Don]):List[Int,Double]={                                      //Total des dons/User
+    Map.values.filter
 
   }
 
-  def sumDonationperUser(tipN: List[Don]):List[Int,Double]={                                       //Total des dons/User
-
-
-  }
-
-  def sumDonationForUser(tipN: List[Don]):{Int,Double}={                                       //Total des dons pour un User
+  def sumDonationForUser(donator: Map[Int,Don]):{Int,Double}={                                          //Total des dons pour un User
 
 
   }
