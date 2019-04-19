@@ -1,10 +1,10 @@
 package tips
 
-package surveys
-
 import org.scalatest.FunSuite
-import surveys.Surveys._
 import utils.db._
+import tips.Tips._
+
+import scala.collection.mutable.Map
 
 class Tips {
   test("Create a donator") {
@@ -16,13 +16,22 @@ class Tips {
   test("Donation loading") {
     val donatorD = Don(4,4,50.0)
     val donDone = List[Don] :+ donatorD
-    asser(donDone == mkDonation(tipN: List[Don], id1:Int, user1:Int, amount1:Double))
-
+    assert(donDone == mkDonation(tipN: List[Don], id1:Int, user1:Int, amount1:Double))
   }
 
-  test("We should be able to get results from a survey") {
-    val survey = Survey("Yo tout le monde ça va ?", "Oui", "Non", 10, 20)
-    val results = getResults(survey)
-    assert(results == "Choice 1 : 10 - Choice 2 : 20")
+  test("Cancel Donation") {
+    val donatorD = Don(4,4,50.0)
+    val donDone = List[Don] :+ donatorD
+    assert(donDone == cancelDonation(tipN: List[Don], id1:Int, user1:Int, amount1:Double))
+  }
+
+  test("sum donations") {
+    val DONATOR_MAP: Map[Int,Don] = Map((0, Don(0,1,50.0)),(1,Don(1,2,50.00)),(2,Don(2,0,25.00)),(3,Don(3,1,2.50)))
+    val total = sumDonation(DONATOR_MAP)
+    assert(total == 127.50)
+  }
+
+  test("sum donnations/Users"){
+
   }
 }
