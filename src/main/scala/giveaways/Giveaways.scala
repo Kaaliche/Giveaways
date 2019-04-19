@@ -1,18 +1,32 @@
 package giveaways
 
 import utils.db._
+import scala.collection.mutable.Map
+import scala.util.Random
 
 object Giveaways {
 
-  def createGiveAway(idGiveAways:Int, nomGiveAways:String){                 //Creation d'une Give away
-
+  def createGiveaway(giveaways: Map[Int, GiveAway], name: String): Map[Int, GiveAway] = {
+      var count = 0
+      if(giveaways.nonEmpty) {
+        count = giveaways.size
+      }
+      giveaways(count) = GiveAway(count, name)
+      giveaways
   }
 
-  def signGiveAway(giveaways: List[GiveAwayToUser], idGiveAways:Int, idUser: Int): List[GiveAwayToUser] = {        //Realiser un don
-    giveaways :+ GiveAwayToUser(idGiveAways, idUser)
+  def signGiveAway(giveaways: Map[Int, GiveAway], idGiveaway: Int, users: Map[Int, User], idUser: Int): Map[Int, GiveAway] = {
+    if(users(idUser).blacklist){
+      giveaways
+    }
+    //giveaways(idGiveaway) = giveaways(idGiveaway).copy(usersMap = users(idUser))
+    giveaways(idGiveaway).usersMap(idUser) = users(idUser)
+    giveaways
   }
 
-  def winner(giveaways: List[GiveAwayToUser], users:List[User]): User = {        //Gagnant du GiveAway
-
+  def winner(giveaways: Map[Int, GiveAway], users: Map[Int, User]): User = {        //Gagnant du GiveAway
+    val random = Random
+    val winner = random.nextInt(users.size + 1)
+    users(winner)
   }
 }
