@@ -11,6 +11,8 @@ import surveys.Surveys._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import spray.json.DefaultJsonProtocol._
 import utils.db.Database._
+import subs.Subs._
+import tips.Tips._
 
 object WebServer {
   def main(args: Array[String]) {
@@ -25,6 +27,13 @@ object WebServer {
     implicit val surveyFormat = jsonFormat4(Survey)
     case class Vote(id:Int, choice:Int)
     implicit val voteFormat = jsonFormat2(Vote)
+    case class ListUser(listUser:List[User])
+    implicit val userFormat= jsonFormat5(User)
+    implicit val listUserFormat = jsonFormat1(ListUser)
+    case class ListDon(listDon:List[Don])
+    implicit val donFormat = jsonFormat3(Don)
+    implicit val listDonFormat = jsonFormat1(ListDon)
+
 
     val route =
       path("hello") {
@@ -64,12 +73,45 @@ object WebServer {
             }
           }
         }~
+        post{
+          path("mkDon") {
+            entity(as[Don]) { don =>
+              DONS = mkDonation(DONS, don.idDon, don.idUser, don.prix)
+              complete("Vous avez donnée " +  don.prix)
+            }
+          }
+        }~
+        post{
+          path("cancelDon") {
+            entity(as[Don]) { don =>
+              DONS = cancelDonation(DONS, don.idDon, don.idUser, don.prix)
+              complete("Vous avez annuler le don " +  don.idDon +" d'une valeur de " +don.prix)
+            }
+          }
+        }~
         path("get_result" ) {
           get{
             parameter('id.as[Int]) {id => complete(getResults(SURVEYS_MAP, id))}
 
           }
+        }~
+        path("get_sub" ) {
+          get{
+            complete(getSubs(USERS_MAP))
+          }
+        }~
+        path("get_don" ) {
+          get{
+            complete(getDonator(DONS,USERS))
+          }
+        }~
+        path("sum_don" ) {
+          get{
+            complete("La somme des don est de " + sumDonation(DONATOR_MAP).toString)
+          }
         }
+
+
 
     val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
     println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")

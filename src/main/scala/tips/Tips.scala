@@ -1,7 +1,7 @@
 package tips
 
 import utils.db._
-
+import scala.collection.mutable.Map
 
 object Tips {
 
@@ -26,11 +26,12 @@ object Tips {
   def sumDonationperUser(donator: Map[Int,Don]):Map[Int,Double]={                                //Total des dons/User
     val iter= donator.values
     val map2 = iter.groupBy(_.idUser)
-    map2.mapValues(_.map(_.prix).sum)
+    val m = map2.mapValues(_.map(_.prix).sum)
+    Map(m.toSeq: _*)
   }
 
   def sumDonationForUser(donator: Map[Int,Don], id: Int):(Int, Double)={                                    //Total des dons pour un User
-   val map = sumDonationperUser(donator)
+    val map = sumDonationperUser(donator)
     (id, map(id))
   }
 }
