@@ -6,7 +6,7 @@ import tips.Tips._
 
 import scala.collection.mutable.Map
 
-class Tips {
+class TipsSuite {
   test("Create a donator") {
     val donatorU = User(4,"CAFFE","John",true,true)
     val donatorD = Don(4,4,50.0)
