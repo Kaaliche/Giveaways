@@ -6,7 +6,7 @@ import utils.db.User
 
 import scala.collection.mutable.Map
 
-class Subs extends FunSuite {
+class SubsSuite extends FunSuite {
 
   test("Get subs from a list") {
     val Users_Map: Map[Int, User] = Map((0, User(0, "Hernandez", "Pierre", false, true)))

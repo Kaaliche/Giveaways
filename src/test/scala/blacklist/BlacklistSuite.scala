@@ -6,7 +6,7 @@ import utils.db._
 
 import scala.collection.mutable.Map
 
-class Blacklist extends FunSuite {
+class BlacklistSuite extends FunSuite {
 
   test("Blacklist should be set to true") {
     val Users_Map: Map[Int, User] = Map((0, User(0, "Hernandez", "Pierre", false, true)))

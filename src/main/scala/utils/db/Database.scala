@@ -1,7 +1,6 @@
 package utils.db
 
 import akka.Done
-import surveys.Survey
 
 import scala.collection.mutable.Map
 
@@ -9,6 +8,7 @@ case class User(idUser:Int, nom:String, pnom:String, blacklist:Boolean, subscrib
 case class Don(idDon:Int, idUser:Int, prix:Double )
 case class GiveAway(idGiveAways:Int, nomGiveAways:String)
 case class GiveAwayToUser(idGiveAways:Int, idUser: Int)
+case class Survey(question: String, c1: String, c2: String, c1_votes : Int = 0, c2_votes : Int = 0)
 
 class Database {
 

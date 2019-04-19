@@ -1,17 +1,28 @@
 package surveys
 
 import utils.db._
-
-case class Survey(question: String, c1: String, c2: String, c1_votes: Int = 0, c2_votes: Int = 0)
+import scala.collection.mutable.Map
 
 object Surveys {
-  def createSurvey(question: String, c1: String, c2: String): Survey = {
-    Survey(question, c1, c2)
+
+  def createSurvey(surveyMap: Map[Int, Survey], question: String, c1: String, c2: String): Map[Int, Survey] = {
+    var count = 0
+    if(surveyMap.nonEmpty) {
+      count = surveyMap.size
+    }
+    surveyMap(count) = Survey(question, c1, c2)
+    surveyMap
   }
 
-  def vote() = {}
+  def vote(surveyMap: Map[Int, Survey], id: Int, choice: Int) : Map[Int, Survey] = choice match {
+    case 1 => surveyMap(id) = surveyMap(id).copy(c1_votes = surveyMap(id).c1_votes + 1)
+      surveyMap
+    case 2 => surveyMap(id) = surveyMap(id).copy(c2_votes = surveyMap(id).c2_votes + 1)
+      surveyMap
+    case _ => surveyMap
+  }
 
-  def getResults(survey: Survey): String = {
-    s"Choix 1 : ${survey.c1_votes} - Choix 2 : ${survey.c2_votes}"
+  def getResults(surveyMap: Map[Int, Survey], id: Int): String = {
+    s"Choix 1 : ${surveyMap(id).c1_votes} - Choix 2 : ${surveyMap(id).c2_votes}"
   }
 }
